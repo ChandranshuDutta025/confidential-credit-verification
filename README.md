@@ -315,3 +315,5 @@ MIT License — see [LICENSE](LICENSE) for details.
 ### Verification & Setup
 
 1. Install Lace Wallet extension
+
+2. Switch network setting to Preview
