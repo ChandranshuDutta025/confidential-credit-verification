@@ -309,3 +309,5 @@ MIT License — see [LICENSE](LICENSE) for details.
 ### Smart Contract Specifications
 
 - Contract Address: 264401128219f9e476230cb17b356ebebe22a3a160ded36da07ce38d59a3aca4
+
+- Target Network: Midnight Preview
