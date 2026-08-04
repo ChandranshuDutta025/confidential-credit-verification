@@ -313,3 +313,5 @@ MIT License — see [LICENSE](LICENSE) for details.
 - Target Network: Midnight Preview
 
 ### Verification & Setup
+
+1. Install Lace Wallet extension
