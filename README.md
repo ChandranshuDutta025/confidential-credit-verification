@@ -319,3 +319,5 @@ MIT License — see [LICENSE](LICENSE) for details.
 2. Switch network setting to Preview
 
 3. Connect wallet to dApp
+
+### Proof Server Configuration
