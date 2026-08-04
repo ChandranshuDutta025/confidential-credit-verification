@@ -321,3 +321,5 @@ MIT License — see [LICENSE](LICENSE) for details.
 3. Connect wallet to dApp
 
 ### Proof Server Configuration
+
+- Proof server RPC: http://127.0.0.1:6300
