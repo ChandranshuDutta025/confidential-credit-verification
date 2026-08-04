@@ -1,0 +1,50 @@
+pragma language_version >= 0.23;
+
+import CompactStandardLibrary;
+
+export ledger minCreditScore: Uint<64>;
+export ledger totalVerifications: Uint<64>;
+export ledger verificationResults: Map<Bytes<32>, Uint<64>>;
+
+witness getCreditScore(): Uint<64>;
+witness getUserSecret(): Bytes<32>;
+
+export circuit initialize(threshold: Uint<64>): [] {
+    minCreditScore = disclose(threshold);
+    totalVerifications = disclose(0);
+}
+
+export circuit deriveUserCommitment(secret: Bytes<32>): Bytes<32> {
+    return persistentHash<Vector<2, Bytes<32>>>([pad(32, "credit-verify:user:"), secret]);
+}
+
+export circuit verifyCreditScore(): [] {
+    const creditScore = getCreditScore();
+    const userSecret = getUserSecret();
+    const userHash = deriveUserCommitment(userSecret);
+    const isEligible = creditScore >= disclose(minCreditScore);
+    if (disclose(isEligible)) {
+        verificationResults.insert(disclose(userHash), disclose(1));
+    } else {
+        verificationResults.insert(disclose(userHash), disclose(0));
+    }
+    const newTotal = (totalVerifications + 1) as Uint<64>;
+    totalVerifications = disclose(newTotal);
+}
+
+export circuit checkVerification(userHash: Bytes<32>): [] {
+    const result = verificationResults.lookup(disclose(userHash));
+    disclose(result);
+}
+
+export circuit updateThreshold(newThreshold: Uint<64>): [] {
+    minCreditScore = disclose(newThreshold);
+}
+
+export circuit getMinThreshold(): Uint<64> {
+    return disclose(minCreditScore);
+}
+
+export circuit getTotalVerifications(): Uint<64> {
+    return disclose(totalVerifications);
+}

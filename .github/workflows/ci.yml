@@ -1,0 +1,59 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Midnight Compact CLI
+        run: |
+          curl --proto '=https' --tlsv1.2 -LsSf https://github.com/midnightntwrk/compact/releases/latest/download/compact-installer.sh | sh
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          export PATH="$HOME/.local/bin:$PATH"
+          compact update
+
+      - name: Compile Compact contract
+        run: npm run compile
+
+      - name: Type-check TypeScript
+        run: npx tsc --noEmit
+
+      - name: Run tests
+        run: npm test
+
+      - name: Install frontend dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: Type-check frontend
+        working-directory: ./frontend
+        run: npx tsc --noEmit
+
+      - name: Build frontend
+        working-directory: ./frontend
+        run: npm run build
+
+      - name: Build summary
+        run: |
+          echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- Compact contract compiled" >> $GITHUB_STEP_SUMMARY
+          echo "- TypeScript type-check passed" >> $GITHUB_STEP_SUMMARY
+          echo "- All tests passed" >> $GITHUB_STEP_SUMMARY
+          echo "- Frontend built successfully" >> $GITHUB_STEP_SUMMARY

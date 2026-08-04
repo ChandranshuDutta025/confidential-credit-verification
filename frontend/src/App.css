@@ -1,0 +1,75 @@
+/* Shared landing-page layout rhythm. */
+.page-shell {
+	margin-left: auto;
+	margin-right: auto;
+	width: min(100%, 80rem);
+	padding-left: 1.5rem;
+	padding-right: 1.5rem;
+}
+
+@media (min-width: 768px) {
+	.page-shell {
+		padding-left: 3rem;
+		padding-right: 3rem;
+	}
+}
+
+@media (min-width: 1024px) {
+	.page-shell {
+		padding-left: 4rem;
+		padding-right: 4rem;
+	}
+}
+
+.landing-section {
+	overflow: visible;
+}
+
+.landing-section-shell {
+	display: flex;
+	flex-direction: column;
+	gap: 5rem;
+}
+
+@media (min-width: 640px) {
+	.landing-section-shell {
+		gap: 5.5rem;
+	}
+}
+
+@media (min-width: 1024px) {
+	.landing-section-shell {
+		gap: 6rem;
+	}
+}
+
+.landing-section-header {
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 48rem;
+	text-align: center;
+}
+
+.landing-section-header-spaced {
+	margin-bottom: 0;
+}
+
+.section-content {
+	margin-top: 0;
+}
+
+.landing-section-hero .landing-section-shell {
+	gap: 4rem;
+}
+
+@media (min-width: 640px) {
+	.landing-section-hero .landing-section-shell {
+		gap: 4.5rem;
+	}
+}
+
+@media (min-width: 1024px) {
+	.landing-section-hero .landing-section-shell {
+		gap: 5rem;
+	}
+}
