@@ -317,3 +317,5 @@ MIT License — see [LICENSE](LICENSE) for details.
 1. Install Lace Wallet extension
 
 2. Switch network setting to Preview
+
+3. Connect wallet to dApp
