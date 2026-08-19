@@ -13,7 +13,7 @@ MidScore lets a borrower prove they meet a lender's credit eligibility bar — w
   `60b892512f11275c9f5260a0983197d90fb2c476d425795c0371ee9d36e9870d`
 - 🌐 **Network**: Midnight Preprod
 - 🔍 **Explorer**: https://explorer.preprod.midnight.network
-- 🎥 **Live Video Demo**: _TODO — add link_
+- 🎥 **Live Video Demo**: [Watch on YouTube](https://youtu.be/jtymsHlcXFc)
 
 ---
 
