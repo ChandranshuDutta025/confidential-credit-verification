@@ -125,7 +125,7 @@ Open http://localhost:3000 in your browser. Connect your Lace wallet (set to Pre
 
 - ✅ Frontend deployed and live on Vercel
 - ✅ Contract deployed to Midnight Preprod
-- 🔄 Preprod can be intermittently unavailable during network resets; faucet tokens may take a few minutes to arrive
+- 🔄 Running on Midnight Preprod — network and faucet availability may vary during scheduled resets
 
 ---
 
