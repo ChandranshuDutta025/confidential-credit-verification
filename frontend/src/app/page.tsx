@@ -17,275 +17,317 @@ import {
   Shield,
 } from "lucide-react";
 
-function Section({
-  children,
-  className = "",
-  id,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  id?: string;
-}) {
-  return (
-    <section
-      id={id}
-      className={`landing-section w-full py-20 md:py-32 ${className}`}
-    >
-      <div className="page-shell landing-section-shell">{children}</div>
-    </section>
-  );
-}
+/* ═══════════════════════════════════════════════════════════════════════════
+   HERO
+   ═══════════════════════════════════════════════════════════════════════════ */
 
-function SectionHeader({
-  eyebrow,
-  title,
-  description,
-}: {
-  eyebrow: string;
-  title: string;
-  description?: string;
-}) {
+function HeroSection() {
   return (
-    <div className="mx-auto mb-16 max-w-3xl text-center">
-      <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400">
-        {eyebrow}
-      </p>
-      <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white md:text-4xl">
-        {title}
-      </h2>
-      {description && (
-        <p className="mt-5 text-lg leading-relaxed text-slate-500 dark:text-slate-400">
-          {description}
-        </p>
-      )}
-    </div>
-  );
-}
+    <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
+      {/* Background effects */}
+      <div className="absolute inset-0 bg-dot-grid opacity-40" />
+      <div className="aurora-glow aurora-blue absolute top-[-200px] left-1/4" />
+      <div className="aurora-glow aurora-indigo absolute top-[-100px] right-1/4" />
+      <div className="aurora-glow aurora-violet absolute bottom-[-300px] left-1/2 -translate-x-1/2" />
+      {/* Radial spotlight behind hero content */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full bg-blue-500/[0.07] blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[300px] rounded-full bg-indigo-500/[0.05] blur-[100px] pointer-events-none" />
 
-export default function HomePage() {
-  return (
-    <>
-      {/* ═══════════════════ HERO ═══════════════════ */}
-      <Section className="landing-section-hero !py-12 md:!py-16">
-        <div className="grid w-full grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-14">
-          <div className="min-w-0 max-w-2xl animate-[fadeIn_0.6s_ease-out]">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-1.5 text-xs font-medium text-blue-700">
-              <ShieldCheck className="h-3.5 w-3.5" />
-              Zero-Knowledge Credit Verification
-            </div>
-            <h1 className="mb-6 max-w-2xl text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-blue-600 to-indigo-600 sm:text-5xl lg:text-6xl">
-              Private Credit Verification
-              <span className="block text-blue-600">
-                Without Revealing Private Data
+      <div className="relative z-10 page-shell w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-12 items-center">
+          {/* Left: Copy */}
+          <div className="animate-fade-in">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/5 px-4 py-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse" />
+              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-400">
+                Zero-Knowledge Credit Verification
               </span>
+            </div>
+
+            <h1 className="mb-6 text-5xl font-semibold leading-[1.08] tracking-tight text-white sm:text-6xl lg:text-[4rem]">
+              Prove creditworthiness.
+              <br />
+              <span className="gradient-text-blue">Without exposing your score.</span>
             </h1>
-            <p className="mb-10 max-w-2xl text-lg leading-relaxed text-slate-500 dark:text-slate-400">
-              Verify loan eligibility using cryptographic commitments. Your
-              credit score is processed locally in your browser, and only the
-              verification result is recorded on-chain.
+
+            <p className="mb-10 max-w-[520px] text-[16px] leading-relaxed text-slate-400">
+              Prove you&apos;re eligible for credit without exposing your financial data.
+              Your credit score is evaluated locally, while only the cryptographic
+              verification result is shared on-chain.
             </p>
-            <div className="flex flex-col gap-4 pt-2 sm:flex-row">
+
+            <div className="flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/eligibility"
-                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3.5 text-white font-semibold shadow-lg shadow-blue-500/25 transition-all hover:shadow-xl hover:-translate-y-0.5 hover:scale-[1.02] active:scale-95"
+                className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-[13px] font-medium text-slate-900 transition-all duration-200 hover:bg-slate-100 hover:shadow-lg hover:shadow-white/5 hover:-translate-y-0.5 active:scale-[0.98]"
               >
                 Check Eligibility
-                <ArrowRight className="h-5 w-5" />
+                <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
               </Link>
               <a
                 href="#how-it-works"
-                className="inline-flex items-center justify-center gap-2 rounded-2xl glass-panel px-7 py-3.5 text-base font-semibold text-slate-700 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:scale-[1.02] active:scale-95"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-[13px] font-medium text-slate-300 transition-all duration-200 hover:bg-white/10 hover:text-white hover:-translate-y-0.5"
               >
                 Learn More
               </a>
             </div>
           </div>
 
-          <div className="hidden min-w-0 max-w-2xl animate-[slideUp_0.8s_ease-out] lg:block lg:justify-self-end">
-            <div className="relative overflow-hidden rounded-3xl p-6 glass-panel">
-              <div className="absolute right-4 top-4 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-3 shadow-lg lg:-right-4 lg:-top-4">
-                <ShieldCheck className="h-6 w-6 text-white" />
-              </div>
-              <div className="mb-6 flex items-center gap-3 rounded-xl bg-slate-50 p-4 dark:bg-slate-700">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-900/50">
-                  <CreditCard className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="text-sm font-semibold text-slate-900 dark:text-white">
-                    Credit Score
-                  </div>
-                  <div className="mt-0.5 text-sm tracking-[0.22em] text-slate-400 dark:text-slate-500">
-                    &#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;
-                  </div>
-                  <div className="mt-0.5 text-xs text-slate-400 dark:text-slate-500">
-                    Private input
-                  </div>
-                </div>
-              </div>
-              <div className="mb-6 flex items-center gap-3 rounded-xl bg-slate-50 p-4 dark:bg-slate-700">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-100 dark:bg-green-900/50">
-                  <Lock className="h-5 w-5 text-green-600 dark:text-green-400" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="text-sm font-semibold text-slate-900 dark:text-white">
-                    Cryptographic Commitment
-                  </div>
-                  <div className="mt-0.5 font-mono text-sm tracking-tight text-slate-500 dark:text-slate-400">
-                    0x7f3a...91c2
-                  </div>
-                  <div className="mt-0.5 text-xs text-slate-400 dark:text-slate-500">
-                    Generated locally
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 rounded-xl bg-green-50 p-4 dark:bg-green-900/30">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-100 dark:bg-green-900/50">
-                  <CheckCircle2 className="h-5 w-5 text-green-600 dark:text-green-400" />
-                </div>
-                <div>
-                  <div className="text-sm font-semibold text-green-700 dark:text-green-300">
-                    Eligibility Verified
-                  </div>
-                  <div className="text-xs text-green-600 dark:text-green-400">
-                    Score &gt;= threshold
-                  </div>
-                </div>
-              </div>
+          {/* Right: Verification Flow Visualization */}
+          <div className="hidden lg:block animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
+            <VerificationFlow />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   VERIFICATION FLOW VISUALIZATION
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+function VerificationFlow() {
+  const steps = [
+    { label: "Private Input", sub: "Credit score processed locally", icon: CreditCard, color: "from-blue-500 to-blue-600" },
+    { label: "Local Processing", sub: "Browser-side evaluation", icon: Zap, color: "from-cyan-500 to-blue-500" },
+    { label: "Cryptographic Commitment", sub: "SHA-256 hash derivation", icon: Lock, color: "from-indigo-500 to-violet-500" },
+    { label: "Zero-Knowledge Proof", sub: "Validity without disclosure", icon: ShieldCheck, color: "from-violet-500 to-purple-500" },
+    { label: "Verified On-Chain", sub: "Result recorded on Midnight", icon: CheckCircle2, color: "from-emerald-500 to-green-500", final: true },
+  ];
+
+  return (
+    <div className="relative flex flex-col items-center gap-0">
+      {steps.map((step, i) => (
+        <div key={step.label} className="relative flex items-center z-10">
+          {/* Animated connecting line */}
+          {i < steps.length - 1 && (
+            <div className="absolute left-[23px] top-[48px] w-px h-[40px] overflow-hidden">
+              <div className="h-full w-full bg-gradient-to-b from-blue-500/40 to-blue-500/10" />
+              <div
+                className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-blue-400/60 via-blue-300/30 to-transparent"
+                style={{
+                  animation: `progress 2s ease-in-out ${i * 0.4}s infinite`,
+                }}
+              />
+            </div>
+          )}
+
+          {/* Node */}
+          <div className="flex items-center gap-4">
+            <div
+              className={`relative flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ${step.color} shadow-lg ${
+                step.final ? "shadow-emerald-500/20" : ""
+              }`}
+            >
+              <step.icon className="h-5 w-5 text-white" />
+              <div
+                className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${step.color} blur-xl ${
+                  step.final ? "opacity-50" : "opacity-40"
+                }`}
+              />
+              {step.final && (
+                <div className="absolute -inset-1 rounded-2xl bg-emerald-500/20 blur-2xl animate-pulse-glow pointer-events-none" />
+              )}
+            </div>
+            <div className={`glass-subtle rounded-xl px-5 py-3 min-w-[220px] ${step.final ? "border-emerald-500/20" : ""}`}>
+              <div className={`text-[13px] font-medium ${step.final ? "text-emerald-400" : "text-white"}`}>{step.label}</div>
+              <div className="text-[11px] text-slate-400 mt-0.5">{step.sub}</div>
             </div>
           </div>
         </div>
-      </Section>
+      ))}
 
-      {/* ═══════════════════ TRUST INDICATORS ═══════════════════ */}
-      <Section className="bg-white dark:bg-slate-900">
-        <SectionHeader
-          eyebrow="Trusted by Design"
-          title="Privacy-preserving by design"
-        />
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {[
-            {
-              icon: ShieldCheck,
-              title: "Zero Knowledge",
-              desc: "Mathematical proof without data exposure",
-            },
-            {
-              icon: Lock,
-              title: "Local Processing",
-              desc: "Credit score processing happens in your browser before any cryptographic operations",
-            },
-            {
-              icon: Shield,
-              title: "Cryptographic Privacy",
-              desc: "SHA-256 commitments link your wallet to the verification without exposing your score",
-            },
-            {
-              icon: Globe,
-              title: "Midnight Network",
-              desc: "Decentralized verification on a purpose-built chain",
-            },
-          ].map((item) => (
+      {/* Central glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-blue-500/5 blur-[80px] pointer-events-none" />
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TRUST SECTION
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+function TrustSection() {
+  const cards = [
+    {
+      num: "01",
+      title: "Private Input",
+      desc: "Credit score is processed locally in your browser. Raw financial data never leaves your device.",
+      icon: CreditCard,
+    },
+    {
+      num: "02",
+      title: "Cryptographic Commitment",
+      desc: "A SHA-256 commitment is derived from your data, linking your wallet to the verification.",
+      icon: Lock,
+    },
+    {
+      num: "03",
+      title: "On-Chain Verification",
+      desc: "Only the verification result is recorded on the Midnight ledger. Your data stays private.",
+      icon: CheckCircle2,
+    },
+  ];
+
+  return (
+    <section className="relative py-32 overflow-hidden">
+      <div className="absolute inset-0 bg-dot-grid opacity-20" />
+      <div className="aurora-glow aurora-indigo absolute top-0 right-[-200px] opacity-10" />
+
+      <div className="relative z-10 page-shell">
+        <div className="mx-auto mb-16 max-w-2xl text-center">
+          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-400">
+            Architecture
+          </p>
+          <h2 className="mb-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+            Your data stays yours.
+          </h2>
+          <p className="text-[15px] text-slate-400">
+            Every step of the verification process is designed to protect your privacy.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          {cards.map((card) => (
             <div
-              key={item.title}
-              className="group glass-panel rounded-2xl p-8 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-600/5"
+              key={card.num}
+              className="group glass-subtle glow-border rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1 hover:bg-white/[0.04]"
             >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 transition-colors group-hover:bg-blue-100">
-                <item.icon className="h-6 w-6 text-blue-600" />
+              <div className="mb-5 flex items-center gap-3">
+                <span className="text-[11px] font-mono text-blue-400/60">{card.num}</span>
+                <div className="h-px flex-1 bg-white/5" />
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/10">
+                  <card.icon className="h-4 w-4 text-blue-400" />
+                </div>
               </div>
-              <h3 className="mb-1.5 text-base font-semibold text-slate-900">
-                {item.title}
+              <h3 className="mb-2 text-[15px] font-medium text-white">
+                {card.title}
               </h3>
-              <p className="text-sm leading-relaxed text-slate-500">
-                {item.desc}
+              <p className="text-[13px] leading-relaxed text-slate-400">
+                {card.desc}
               </p>
             </div>
           ))}
         </div>
-      </Section>
+      </div>
+    </section>
+  );
+}
 
-      {/* ═══════════════════ HOW IT WORKS ═══════════════════ */}
-      <Section id="how-it-works">
-        <SectionHeader
-          eyebrow="How It Works"
-          title="Four steps to private verification"
-        />
-        <div className="section-content relative mx-auto w-full max-w-4xl">
-          <div className="absolute left-8 top-8 hidden h-[calc(100%-4rem)] w-px bg-gradient-to-b from-blue-200 via-blue-300 to-blue-200 lg:left-1/2 lg:block" />
-          <div className="flex flex-col space-y-12 lg:space-y-16">
-            {[
-              {
-                num: "01",
-                icon: CreditCard,
-                title: "Enter Credit Score",
-                desc: "Your credit score is entered locally in your browser. The raw value is processed on your device and compared against the lending threshold.",
-              },
-              {
-                num: "02",
-                icon: Zap,
-                title: "Generate Commitment",
-                desc: "A cryptographic commitment is derived from a random secret using SHA-256, linking your wallet to the verification without exposing your score.",
-              },
-              {
-                num: "03",
-                icon: Fingerprint,
-                title: "Authorize with Wallet",
-                desc: "Your Midnight wallet authorizes the verification, connecting your on-chain identity to the cryptographic commitment.",
-              },
-              {
-                num: "04",
-                icon: FileCheck,
-                title: "Result Recorded",
-                desc: "Only the verification result (eligible or not) is published to the Midnight ledger. Your actual score remains private.",
-              },
-            ].map((step, i) => (
-              <div
-                key={step.num}
-                className={`relative flex flex-col items-start gap-6 lg:flex-row lg:items-center ${
-                  i % 2 === 1 ? "lg:flex-row-reverse" : ""
-                }`}
-              >
-                <div
-                  className={`flex-1 ${i % 2 === 1 ? "lg:text-right" : ""}`}
-                >
-                  <div
-                    className={`mb-3 inline-block rounded-lg bg-blue-50 px-3 py-1 text-xs font-bold text-blue-600 dark:bg-blue-900/50 dark:text-blue-400 ${i % 2 === 1 ? "lg:ml-auto" : ""}`}
-                  >
-                    Step {step.num}
+/* ═══════════════════════════════════════════════════════════════════════════
+   HOW IT WORKS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+function HowItWorksSection() {
+  const steps = [
+    {
+      num: "01",
+      title: "Enter Private Score",
+      desc: "Input your credit score locally in your browser. The raw value is never transmitted.",
+      icon: CreditCard,
+    },
+    {
+      num: "02",
+      title: "Generate Commitment",
+      desc: "A cryptographic commitment is derived using SHA-256, linking your wallet without exposing your data.",
+      icon: Zap,
+    },
+    {
+      num: "03",
+      title: "Prove Eligibility",
+      desc: "Your Midnight wallet authorizes the zero-knowledge proof generation.",
+      icon: Fingerprint,
+    },
+    {
+      num: "04",
+      title: "Verify On-Chain",
+      desc: "Only the boolean result is published to the Midnight ledger. Your score remains private.",
+      icon: FileCheck,
+    },
+  ];
+
+  return (
+    <section className="relative py-32">
+      <div className="absolute inset-0 bg-dot-grid opacity-20" />
+
+      <div className="relative z-10 page-shell">
+        <div className="mx-auto mb-16 max-w-2xl text-center">
+          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-400">
+            Process
+          </p>
+          <h2 className="mb-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+            How It Works
+          </h2>
+          <p className="text-[15px] text-slate-400">
+            Four steps to private, verifiable credit eligibility.
+          </p>
+        </div>
+
+        <div className="mx-auto max-w-3xl">
+          <div className="relative">
+            {/* Connecting line */}
+            <div className="absolute left-[23px] top-0 bottom-0 w-px bg-gradient-to-b from-blue-500/30 via-indigo-500/20 to-transparent" />
+
+            <div className="flex flex-col gap-10">
+              {steps.map((step) => (
+                <div key={step.num} className="relative flex gap-6">
+                  {/* Node */}
+                  <div className="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-blue-500/20 bg-[#0B1020]">
+                    <step.icon className="h-5 w-5 text-blue-400" />
                   </div>
-                  <h3 className="mb-2 text-lg font-bold text-slate-900 dark:text-white">
-                    {step.title}
-                  </h3>
-                  <p className="max-w-sm text-sm leading-relaxed text-slate-500 dark:text-slate-400">
-                    {step.desc}
-                  </p>
+
+                  {/* Content */}
+                  <div className="pt-1">
+                    <div className="mb-1 text-[11px] font-mono text-blue-400/60">
+                      Step {step.num}
+                    </div>
+                    <h3 className="mb-1.5 text-[15px] font-medium text-white">
+                      {step.title}
+                    </h3>
+                    <p className="max-w-md text-[13px] leading-relaxed text-slate-400">
+                      {step.desc}
+                    </p>
+                  </div>
                 </div>
-                <div className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-blue-200 bg-white shadow-md dark:border-blue-800 dark:bg-slate-800">
-                  <step.icon className="h-6 w-6 text-blue-600 dark:text-blue-400" />
-                </div>
-                <div className="hidden flex-1 lg:block" />
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
-      </Section>
+      </div>
+    </section>
+  );
+}
 
-      {/* ═══════════════════ PRIVACY COMPARISON ═══════════════════ */}
-      <Section className="bg-white dark:bg-slate-900">
-        <SectionHeader
-          eyebrow="Why Midnight?"
-          title="A fundamentally different approach to verification"
-        />
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-12">
-          <div className="rounded-2xl border border-red-100 bg-red-50/50 p-8 sm:p-12 dark:border-red-900/50 dark:bg-red-950/30">
+/* ═══════════════════════════════════════════════════════════════════════════
+   PRIVACY COMPARISON
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+function PrivacyComparisonSection() {
+  return (
+    <section className="relative py-32">
+      <div className="aurora-glow aurora-blue absolute bottom-[-200px] left-[-200px] opacity-10" />
+
+      <div className="relative z-10 page-shell">
+        <div className="mx-auto mb-16 max-w-2xl text-center">
+          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-400">
+            Why Midnight
+          </p>
+          <h2 className="mb-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+            A fundamentally different approach
+          </h2>
+        </div>
+
+        <div className="mx-auto grid max-w-4xl grid-cols-1 gap-6 md:grid-cols-2">
+          {/* Traditional */}
+          <div className="rounded-2xl border border-red-500/10 bg-red-500/[0.03] p-8">
             <div className="mb-6 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-100 dark:bg-red-900/50">
-                <X className="h-5 w-5 text-red-600 dark:text-red-400" />
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-500/10">
+                <X className="h-4 w-4 text-red-400" />
               </div>
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-                Traditional Verification
-              </h3>
+              <h3 className="text-[15px] font-medium text-white">Traditional Verification</h3>
             </div>
-            <ul className="flex flex-col gap-4">
+            <ul className="flex flex-col gap-3">
               {[
                 "Credit score uploaded to a third-party server",
                 "Financial data stored in external databases",
@@ -294,24 +336,22 @@ export default function HomePage() {
                 "No cryptographic privacy guarantees",
               ].map((item) => (
                 <li key={item} className="flex items-start gap-3">
-                  <X className="mt-0.5 h-4 w-4 shrink-0 text-red-400" />
-                  <span className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-                    {item}
-                  </span>
+                  <X className="mt-0.5 h-3.5 w-3.5 shrink-0 text-red-400/60" />
+                  <span className="text-[13px] text-slate-400">{item}</span>
                 </li>
               ))}
             </ul>
           </div>
-          <div className="rounded-2xl border border-green-100 bg-green-50/50 p-8 sm:p-12 dark:border-green-900/50 dark:bg-green-950/30">
+
+          {/* Midnight */}
+          <div className="rounded-2xl border border-emerald-500/10 bg-emerald-500/[0.03] p-8">
             <div className="mb-6 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-green-100 dark:bg-green-900/50">
-                <Check className="h-5 w-5 text-green-600 dark:text-green-400" />
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/10">
+                <Check className="h-4 w-4 text-emerald-400" />
               </div>
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-                Midnight Verification
-              </h3>
+              <h3 className="text-[15px] font-medium text-white">Midnight Verification</h3>
             </div>
-            <ul className="flex flex-col gap-4">
+            <ul className="flex flex-col gap-3">
               {[
                 "Credit score processed locally in your browser",
                 "Cryptographic commitment derived from your data",
@@ -320,73 +360,93 @@ export default function HomePage() {
                 "SHA-256 hashing protects your raw data",
               ].map((item) => (
                 <li key={item} className="flex items-start gap-3">
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-green-500" />
-                  <span className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-                    {item}
-                  </span>
+                  <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-400/60" />
+                  <span className="text-[13px] text-slate-400">{item}</span>
                 </li>
               ))}
             </ul>
           </div>
         </div>
-      </Section>
+      </div>
+    </section>
+  );
+}
 
-      {/* ═══════════════════ CAPABILITIES ═══════════════════ */}
-      <Section>
-        <SectionHeader
-          eyebrow="Capabilities"
-          title="Everything you need for private credit verification"
-        />
-        <div className="section-content grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {[
-            {
-              icon: ShieldCheck,
-              title: "Local Processing",
-              desc: "Your credit score is processed in your browser with cryptographic commitments before any verification.",
-            },
-            {
-              icon: Zap,
-              title: "Fast Verification",
-              desc: "Cryptographic commitments are derived locally using SHA-256. No waiting for third-party API responses.",
-            },
-            {
-              icon: Lock,
-              title: "Minimal Trust",
-              desc: "Verification happens between your wallet and the blockchain. No intermediary stores your financial data.",
-            },
-            {
-              icon: EyeOff,
-              title: "Score Stays Private",
-              desc: "Your raw credit score is never transmitted. Only the cryptographic commitment and verification result leave your device.",
-            },
-            {
-              icon: FileCheck,
-              title: "Immutable Record",
-              desc: "Verification results are recorded on-chain as cryptographic commitments that cannot be altered or forged.",
-            },
-            {
-              icon: Fingerprint,
-              title: "Wallet Identity",
-              desc: "Your Midnight wallet links your on-chain identity to the verification. No passwords or separate accounts needed.",
-            },
-          ].map((item) => (
+/* ═══════════════════════════════════════════════════════════════════════════
+   CAPABILITIES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+function CapabilitiesSection() {
+  const items = [
+    { icon: ShieldCheck, title: "Local Processing", desc: "Your credit score is processed in your browser with cryptographic commitments." },
+    { icon: Zap, title: "Fast Verification", desc: "Cryptographic commitments are derived locally using SHA-256. No API delays." },
+    { icon: Lock, title: "Minimal Trust", desc: "Verification happens between your wallet and the blockchain. No intermediary." },
+    { icon: EyeOff, title: "Score Stays Private", desc: "Your raw credit score is never transmitted. Only the commitment leaves your device." },
+    { icon: FileCheck, title: "Immutable Record", desc: "Verification results are recorded on-chain as tamper-proof commitments." },
+    { icon: Fingerprint, title: "Wallet Identity", desc: "Your Midnight wallet links your on-chain identity. No passwords needed." },
+  ];
+
+  return (
+    <section className="relative py-32">
+      <div className="absolute inset-0 bg-dot-grid opacity-20" />
+
+      <div className="relative z-10 page-shell">
+        <div className="mx-auto mb-16 max-w-2xl text-center">
+          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-400">
+            Capabilities
+          </p>
+          <h2 className="mb-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+            Built for privacy-first finance
+          </h2>
+        </div>
+
+        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {items.map((item) => (
             <div
               key={item.title}
-              className="group glass-panel rounded-2xl p-8 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-600/5"
+              className="group glass-subtle glow-border rounded-2xl p-6 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/[0.04]"
             >
-              <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 transition-colors group-hover:bg-blue-100">
-                <item.icon className="h-5 w-5 text-blue-600" />
+              <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-xl bg-blue-500/10 transition-colors group-hover:bg-blue-500/15">
+                <item.icon className="h-4 w-4 text-blue-400" />
               </div>
-              <h3 className="mb-2 text-base font-semibold text-slate-900">
+              <h3 className="mb-1.5 text-[14px] font-medium text-white">
                 {item.title}
               </h3>
-              <p className="text-sm leading-relaxed text-slate-500">
+              <p className="text-[13px] leading-relaxed text-slate-400">
                 {item.desc}
               </p>
             </div>
           ))}
         </div>
-      </Section>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SECTION DIVIDER
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+function Divider() {
+  return <div className="section-divider mx-auto max-w-5xl" />;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   HOME PAGE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+export default function HomePage() {
+  return (
+    <>
+      <HeroSection />
+      <Divider />
+      <TrustSection />
+      <Divider />
+      <HowItWorksSection />
+      <Divider />
+      <PrivacyComparisonSection />
+      <Divider />
+      <CapabilitiesSection />
     </>
   );
 }
