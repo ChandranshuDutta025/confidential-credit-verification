@@ -144,10 +144,10 @@ Open http://localhost:3000 in your browser. Connect your Lace wallet (set to Pre
 - [ ] End-to-end tests covering the full proof-generation flow
 
 ### Level 3 Checklist
-- [ ] Deployment guide covering Preprod setup and reset handling
-- [ ] Public GitHub repo with clean commit history
-- [ ] Complete README (this document)
-- [ ] Demo video walkthrough
+- [x] Deployment guide covering Preprod setup and reset handling
+- [x] Public GitHub repo with clean commit history
+- [x] Complete README (this document)
+- [x] Demo video walkthrough
 
 ---
 
