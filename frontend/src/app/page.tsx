@@ -224,19 +224,27 @@ function ArchitectureSection() {
           {cards.map((card) => (
             <div
               key={card.num}
-              className="group glass-subtle glow-border rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:bg-white/[0.04]"
+              className="group relative overflow-hidden glass-subtle glow-border rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:bg-white/[0.04]"
             >
-              <div className="mb-6 flex items-center gap-3">
-                <span className="text-[11px] font-mono text-blue-400/60">{card.num}</span>
-                <div className="h-px flex-1 bg-white/5" />
+              {/* Watermark number */}
+              <span className="absolute top-4 right-4 text-6xl font-black text-blue-500/[0.07] select-none pointer-events-none">
+                {card.num}
+              </span>
+
+              {/* Header: badge + icon */}
+              <div className="relative mb-5 flex items-center justify-between">
+                <span className="inline-flex items-center rounded-lg bg-blue-500/10 px-2.5 py-1 text-xs font-mono font-bold text-blue-400 border border-blue-500/30 shadow-[0_0_12px_rgba(59,130,246,0.2)]">
+                  {card.num}
+                </span>
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-500/10 transition-colors group-hover:bg-blue-500/15">
                   <card.icon className="h-4.5 w-4.5 text-blue-400" />
                 </div>
               </div>
-              <h3 className="mb-2.5 text-[16px] font-medium text-white">
+
+              <h3 className="relative mb-2.5 text-[16px] font-medium text-white">
                 {card.title}
               </h3>
-              <p className="text-[14px] leading-relaxed text-slate-400">
+              <p className="relative text-[14px] leading-relaxed text-slate-400">
                 {card.desc}
               </p>
             </div>
