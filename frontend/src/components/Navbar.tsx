@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Sun, Moon } from "lucide-react";
@@ -33,16 +33,9 @@ export function Navbar({
 }: NavbarProps) {
   const { theme, toggleTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const networkLabel = process.env.NEXT_PUBLIC_NETWORK || "undeployed";
   const isPreprod = networkLabel === "preprod";
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   const shortAddr = walletInfo
     ? `${walletInfo.address.slice(0, 6)}...${walletInfo.address.slice(-4)}`
@@ -50,13 +43,9 @@ export function Navbar({
 
   return (
     <nav
-      className={`sticky top-0 z-50 border-b transition-all duration-300 ${
-        scrolled
-          ? "border-slate-200 bg-white/80 shadow-sm backdrop-blur-xl dark:border-slate-700 dark:bg-slate-900/80"
-          : "border-transparent bg-[#F8FAFC]/80 backdrop-blur-sm dark:bg-slate-950/80"
-      }`}
+      className="sticky top-4 z-50 mx-auto max-w-7xl px-4"
     >
-      <div className="page-shell flex h-16 w-full items-center justify-between">
+      <div className="glass-panel flex items-center justify-between rounded-full px-6 py-3">
         <Link href="/" className="flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600">
             <svg
@@ -161,7 +150,7 @@ export function Navbar({
           {(walletStatus === "found" || walletStatus === "not_found") && (
             <button
               onClick={onConnect}
-              className="rounded-lg bg-blue-600 px-5 py-2 text-sm font-medium text-white shadow-sm transition-all hover:bg-blue-700 hover:shadow-md active:scale-[0.98]"
+              className="rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-2 text-sm font-medium text-white shadow-lg shadow-blue-500/25 transition-all hover:shadow-xl hover:-translate-y-0.5 active:scale-[0.98]"
             >
               Connect Wallet
             </button>
@@ -204,7 +193,7 @@ export function Navbar({
       </div>
 
       {menuOpen && (
-        <div className="border-t border-slate-200 bg-white/95 backdrop-blur-xl dark:border-slate-700 dark:bg-slate-900/95 md:hidden">
+        <div className="glass-panel mt-2 rounded-2xl md:hidden">
           <div className="flex flex-col gap-1 px-4 py-3">
             {NAV_ITEMS.map((item) => (
               <Link

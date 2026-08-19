@@ -431,7 +431,7 @@ function VerifyCard({
       <button
         onClick={onVerify}
         disabled={verifying || !creditScore}
-        className="mt-3 w-full rounded-xl bg-blue-600 px-6 py-3.5 text-base font-semibold text-white shadow-lg shadow-blue-600/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-600/25 hover:scale-[1.01] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:scale-100"
+        className="mt-3 w-full rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3.5 text-base font-semibold text-white shadow-lg shadow-blue-500/25 transition-all hover:shadow-xl hover:-translate-y-0.5 hover:scale-[1.01] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:scale-100"
       >
         {verifying ? (
           <span className="inline-flex items-center gap-2">
@@ -570,7 +570,7 @@ function EmptyState({
           <p className="text-sm text-slate-500">Lace Wallet not connected</p>
           <button
             onClick={onConnect}
-            className="rounded-xl bg-blue-600 px-6 py-2.5 text-sm font-medium text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-md active:scale-95"
+            className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5 active:scale-95"
           >
             Connect Lace Wallet
           </button>

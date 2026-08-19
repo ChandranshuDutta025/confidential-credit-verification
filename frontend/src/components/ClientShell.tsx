@@ -25,13 +25,13 @@ export default function ClientShell({
 }) {
   return (
     <WalletProvider>
-      <div className="min-h-screen w-full bg-[#F8FAFC] text-slate-900 font-sans overflow-x-hidden flex flex-col dark:bg-slate-950 dark:text-white">
+      <div className="min-h-screen w-full text-slate-900 font-sans overflow-x-hidden flex flex-col">
         <NavbarWrapper />
 
         <main className="flex-1">{children}</main>
 
-        <footer className="w-full border-t border-slate-200 bg-white py-12 md:py-16 dark:border-slate-700 dark:bg-slate-900">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <footer className="w-full py-12 md:py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
               <div className="flex items-center gap-2">
                 <div className="flex h-6 w-6 items-center justify-center rounded bg-blue-600">
