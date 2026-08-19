@@ -1,0 +1,48 @@
+pragma language_version 0.23;
+
+import CompactStandardLibrary;
+
+// Public ledger state: stores eligibility status without revealing underlying data
+export ledger applications: Map<Bytes<32>, Uint<8>>;
+
+// Witness declarations - private inputs that NEVER get disclosed
+// Note: applicant_id must be disclosed to index the ledger
+witness getIncome(): Uint<32>;
+witness getCreditScore(): Uint<32>;
+witness getAge(): Uint<32>;
+
+/**
+ * Check eligibility for a private loan using zero-knowledge proofs.
+ * 
+ * Privacy Model:
+ * - income, credit_score, age: NEVER disclosed (private witnesses)
+ * - applicant_id: Disclosed only as ledger key (wallet address is public anyway)
+ * - eligibility status: Visible (1 = eligible stored in ledger)
+ */
+export circuit check_eligibility(applicant_id: Bytes<32>): [] {
+    const income = getIncome();
+    const credit_score = getCreditScore();
+    const age = getAge();
+    
+    // Eligibility checks - financial data remains private
+    const ageEligible = disclose(age >= disclose(18));
+    const incomeEligible = disclose(income >= disclose(50000));
+    const creditEligible = disclose(credit_score >= disclose(700));
+    
+    // All conditions must be met
+    assert(ageEligible, "Age requirement not met");
+    assert(incomeEligible, "Income requirement not met");
+    assert(creditEligible, "Credit score requirement not met");
+    
+    // Update ledger - only eligibility status is stored (1 = eligible)
+    // applicant_id (wallet address) is the public key
+    applications.insert(disclose(applicant_id), 1);
+}
+
+/**
+ * Check if an applicant has been verified as eligible.
+ */
+export circuit check_application_status(applicant_id: Bytes<32>): Uint<8> {
+    const status = applications.lookup(disclose(applicant_id));
+    return status;
+}
