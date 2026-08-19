@@ -10,12 +10,62 @@ import {
   ArrowRight,
   CreditCard,
   Zap,
-  Globe,
   FileCheck,
   X,
   Check,
-  Shield,
 } from "lucide-react";
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SECTION HEADER — Reusable for all major sections
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+function SectionHeader({
+  label,
+  heading,
+  description,
+  align = "center",
+}: {
+  label: string;
+  heading: string;
+  description?: string;
+  align?: "center" | "left";
+}) {
+  const isCenter = align === "center";
+  return (
+    <div
+      className={`mx-auto mb-16 max-w-3xl ${
+        isCenter ? "text-center" : "text-left"
+      }`}
+    >
+      <p className="mb-5 text-[13px] font-semibold uppercase tracking-[0.2em] text-blue-400">
+        {label}
+      </p>
+      <h2 className="mb-5 text-[2.5rem] font-semibold leading-[1.15] tracking-tight text-white sm:text-[3rem]">
+        {heading}
+      </h2>
+      {description && (
+        <p className="text-lg leading-relaxed text-slate-400 max-w-[680px] mx-auto">
+          {description}
+        </p>
+      )}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SECTION DIVIDER — Subtle gradient line with optional glow
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+function SectionDivider({ glow = false }: { glow?: boolean }) {
+  return (
+    <div className="relative mx-auto max-w-5xl py-16">
+      <div className="h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
+      {glow && (
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[40px] rounded-full bg-blue-500/[0.04] blur-[40px] pointer-events-none" />
+      )}
+    </div>
+  );
+}
 
 /* ═══════════════════════════════════════════════════════════════════════════
    HERO
@@ -29,7 +79,6 @@ function HeroSection() {
       <div className="aurora-glow aurora-blue absolute top-[-200px] left-1/4" />
       <div className="aurora-glow aurora-indigo absolute top-[-100px] right-1/4" />
       <div className="aurora-glow aurora-violet absolute bottom-[-300px] left-1/2 -translate-x-1/2" />
-      {/* Radial spotlight behind hero content */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full bg-blue-500/[0.07] blur-[120px] pointer-events-none" />
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[300px] rounded-full bg-indigo-500/[0.05] blur-[100px] pointer-events-none" />
 
@@ -100,20 +149,15 @@ function VerificationFlow() {
     <div className="relative flex flex-col items-center gap-0">
       {steps.map((step, i) => (
         <div key={step.label} className="relative flex items-center z-10">
-          {/* Animated connecting line */}
           {i < steps.length - 1 && (
             <div className="absolute left-[23px] top-[48px] w-px h-[40px] overflow-hidden">
               <div className="h-full w-full bg-gradient-to-b from-blue-500/40 to-blue-500/10" />
               <div
                 className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-blue-400/60 via-blue-300/30 to-transparent"
-                style={{
-                  animation: `progress 2s ease-in-out ${i * 0.4}s infinite`,
-                }}
+                style={{ animation: `progress 2s ease-in-out ${i * 0.4}s infinite` }}
               />
             </div>
           )}
-
-          {/* Node */}
           <div className="flex items-center gap-4">
             <div
               className={`relative flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ${step.color} shadow-lg ${
@@ -121,11 +165,7 @@ function VerificationFlow() {
               }`}
             >
               <step.icon className="h-5 w-5 text-white" />
-              <div
-                className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${step.color} blur-xl ${
-                  step.final ? "opacity-50" : "opacity-40"
-                }`}
-              />
+              <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${step.color} blur-xl ${step.final ? "opacity-50" : "opacity-40"}`} />
               {step.final && (
                 <div className="absolute -inset-1 rounded-2xl bg-emerald-500/20 blur-2xl animate-pulse-glow pointer-events-none" />
               )}
@@ -137,18 +177,16 @@ function VerificationFlow() {
           </div>
         </div>
       ))}
-
-      {/* Central glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-blue-500/5 blur-[80px] pointer-events-none" />
     </div>
   );
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   TRUST SECTION
+   ARCHITECTURE SECTION
    ═══════════════════════════════════════════════════════════════════════════ */
 
-function TrustSection() {
+function ArchitectureSection() {
   const cards = [
     {
       num: "01",
@@ -171,40 +209,34 @@ function TrustSection() {
   ];
 
   return (
-    <section className="relative py-32 overflow-hidden">
+    <section className="relative pt-16 pb-24 overflow-hidden">
       <div className="absolute inset-0 bg-dot-grid opacity-20" />
       <div className="aurora-glow aurora-indigo absolute top-0 right-[-200px] opacity-10" />
 
       <div className="relative z-10 page-shell">
-        <div className="mx-auto mb-16 max-w-2xl text-center">
-          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-400">
-            Architecture
-          </p>
-          <h2 className="mb-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-            Your data stays yours.
-          </h2>
-          <p className="text-[15px] text-slate-400">
-            Every step of the verification process is designed to protect your privacy.
-          </p>
-        </div>
+        <SectionHeader
+          label="Architecture"
+          heading="Your data stays yours."
+          description="Every step of the verification process is designed to protect your privacy."
+        />
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {cards.map((card) => (
             <div
               key={card.num}
-              className="group glass-subtle glow-border rounded-2xl p-7 transition-all duration-300 hover:-translate-y-1 hover:bg-white/[0.04]"
+              className="group glass-subtle glow-border rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:bg-white/[0.04]"
             >
-              <div className="mb-5 flex items-center gap-3">
+              <div className="mb-6 flex items-center gap-3">
                 <span className="text-[11px] font-mono text-blue-400/60">{card.num}</span>
                 <div className="h-px flex-1 bg-white/5" />
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/10">
-                  <card.icon className="h-4 w-4 text-blue-400" />
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-500/10 transition-colors group-hover:bg-blue-500/15">
+                  <card.icon className="h-4.5 w-4.5 text-blue-400" />
                 </div>
               </div>
-              <h3 className="mb-2 text-[15px] font-medium text-white">
+              <h3 className="mb-2.5 text-[16px] font-medium text-white">
                 {card.title}
               </h3>
-              <p className="text-[13px] leading-relaxed text-slate-400">
+              <p className="text-[14px] leading-relaxed text-slate-400">
                 {card.desc}
               </p>
             </div>
@@ -216,10 +248,10 @@ function TrustSection() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   HOW IT WORKS
+   PROCESS SECTION
    ═══════════════════════════════════════════════════════════════════════════ */
 
-function HowItWorksSection() {
+function ProcessSection() {
   const steps = [
     {
       num: "01",
@@ -248,28 +280,22 @@ function HowItWorksSection() {
   ];
 
   return (
-    <section className="relative py-32">
+    <section className="relative pt-16 pb-24">
       <div className="absolute inset-0 bg-dot-grid opacity-20" />
 
       <div className="relative z-10 page-shell">
-        <div className="mx-auto mb-16 max-w-2xl text-center">
-          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-400">
-            Process
-          </p>
-          <h2 className="mb-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-            How It Works
-          </h2>
-          <p className="text-[15px] text-slate-400">
-            Four steps to private, verifiable credit eligibility.
-          </p>
-        </div>
+        <SectionHeader
+          label="Process"
+          heading="How verification works."
+          description="Four steps to private, verifiable credit eligibility."
+        />
 
         <div className="mx-auto max-w-3xl">
           <div className="relative">
             {/* Connecting line */}
             <div className="absolute left-[23px] top-0 bottom-0 w-px bg-gradient-to-b from-blue-500/30 via-indigo-500/20 to-transparent" />
 
-            <div className="flex flex-col gap-10">
+            <div className="flex flex-col gap-12">
               {steps.map((step) => (
                 <div key={step.num} className="relative flex gap-6">
                   {/* Node */}
@@ -279,13 +305,13 @@ function HowItWorksSection() {
 
                   {/* Content */}
                   <div className="pt-1">
-                    <div className="mb-1 text-[11px] font-mono text-blue-400/60">
+                    <div className="mb-1.5 text-[11px] font-mono text-blue-400/60">
                       Step {step.num}
                     </div>
-                    <h3 className="mb-1.5 text-[15px] font-medium text-white">
+                    <h3 className="mb-2 text-[16px] font-medium text-white">
                       {step.title}
                     </h3>
-                    <p className="max-w-md text-[13px] leading-relaxed text-slate-400">
+                    <p className="max-w-md text-[14px] leading-relaxed text-slate-400">
                       {step.desc}
                     </p>
                   </div>
@@ -300,80 +326,7 @@ function HowItWorksSection() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   PRIVACY COMPARISON
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-function PrivacyComparisonSection() {
-  return (
-    <section className="relative py-32">
-      <div className="aurora-glow aurora-blue absolute bottom-[-200px] left-[-200px] opacity-10" />
-
-      <div className="relative z-10 page-shell">
-        <div className="mx-auto mb-16 max-w-2xl text-center">
-          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-400">
-            Why Midnight
-          </p>
-          <h2 className="mb-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-            A fundamentally different approach
-          </h2>
-        </div>
-
-        <div className="mx-auto grid max-w-4xl grid-cols-1 gap-6 md:grid-cols-2">
-          {/* Traditional */}
-          <div className="rounded-2xl border border-red-500/10 bg-red-500/[0.03] p-8">
-            <div className="mb-6 flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-500/10">
-                <X className="h-4 w-4 text-red-400" />
-              </div>
-              <h3 className="text-[15px] font-medium text-white">Traditional Verification</h3>
-            </div>
-            <ul className="flex flex-col gap-3">
-              {[
-                "Credit score uploaded to a third-party server",
-                "Financial data stored in external databases",
-                "Third party has full access to your information",
-                "Data breach risk from centralized storage",
-                "No cryptographic privacy guarantees",
-              ].map((item) => (
-                <li key={item} className="flex items-start gap-3">
-                  <X className="mt-0.5 h-3.5 w-3.5 shrink-0 text-red-400/60" />
-                  <span className="text-[13px] text-slate-400">{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Midnight */}
-          <div className="rounded-2xl border border-emerald-500/10 bg-emerald-500/[0.03] p-8">
-            <div className="mb-6 flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/10">
-                <Check className="h-4 w-4 text-emerald-400" />
-              </div>
-              <h3 className="text-[15px] font-medium text-white">Midnight Verification</h3>
-            </div>
-            <ul className="flex flex-col gap-3">
-              {[
-                "Credit score processed locally in your browser",
-                "Cryptographic commitment derived from your data",
-                "Only the verification result is recorded on-chain",
-                "Wallet-based identity, no account required",
-                "SHA-256 hashing protects your raw data",
-              ].map((item) => (
-                <li key={item} className="flex items-start gap-3">
-                  <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-400/60" />
-                  <span className="text-[13px] text-slate-400">{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   CAPABILITIES
+   CAPABILITIES SECTION
    ═══════════════════════════════════════════════════════════════════════════ */
 
 function CapabilitiesSection() {
@@ -387,32 +340,29 @@ function CapabilitiesSection() {
   ];
 
   return (
-    <section className="relative py-32">
+    <section className="relative pt-16 pb-24">
       <div className="absolute inset-0 bg-dot-grid opacity-20" />
 
       <div className="relative z-10 page-shell">
-        <div className="mx-auto mb-16 max-w-2xl text-center">
-          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-400">
-            Capabilities
-          </p>
-          <h2 className="mb-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-            Built for privacy-first finance
-          </h2>
-        </div>
+        <SectionHeader
+          label="Capabilities"
+          heading="Built for private verification."
+          description="The infrastructure primitives that make confidential credit verification possible."
+        />
 
-        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((item) => (
             <div
               key={item.title}
-              className="group glass-subtle glow-border rounded-2xl p-6 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/[0.04]"
+              className="group glass-subtle glow-border rounded-2xl p-8 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/[0.04]"
             >
-              <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-xl bg-blue-500/10 transition-colors group-hover:bg-blue-500/15">
-                <item.icon className="h-4 w-4 text-blue-400" />
+              <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 transition-colors group-hover:bg-blue-500/15">
+                <item.icon className="h-5 w-5 text-blue-400" />
               </div>
-              <h3 className="mb-1.5 text-[14px] font-medium text-white">
+              <h3 className="mb-2 text-[15px] font-medium text-white">
                 {item.title}
               </h3>
-              <p className="text-[13px] leading-relaxed text-slate-400">
+              <p className="text-[14px] leading-relaxed text-slate-400">
                 {item.desc}
               </p>
             </div>
@@ -424,11 +374,73 @@ function CapabilitiesSection() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   SECTION DIVIDER
+   WHY MIDNIGHT SECTION
    ═══════════════════════════════════════════════════════════════════════════ */
 
-function Divider() {
-  return <div className="section-divider mx-auto max-w-5xl" />;
+function WhyMidnightSection() {
+  return (
+    <section className="relative pt-16 pb-24">
+      <div className="aurora-glow aurora-blue absolute bottom-[-200px] left-[-200px] opacity-10" />
+
+      <div className="relative z-10 page-shell">
+        <SectionHeader
+          label="Why Midnight"
+          heading="A fundamentally different approach."
+          description="Midnight enables zero-knowledge verification without sacrificing privacy."
+        />
+
+        <div className="mx-auto grid max-w-4xl grid-cols-1 gap-8 md:grid-cols-2">
+          {/* Traditional */}
+          <div className="rounded-2xl border border-red-500/10 bg-red-500/[0.03] p-8">
+            <div className="mb-6 flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-500/10">
+                <X className="h-5 w-5 text-red-400" />
+              </div>
+              <h3 className="text-[16px] font-medium text-white">Traditional Verification</h3>
+            </div>
+            <ul className="flex flex-col gap-4">
+              {[
+                "Credit score uploaded to a third-party server",
+                "Financial data stored in external databases",
+                "Third party has full access to your information",
+                "Data breach risk from centralized storage",
+                "No cryptographic privacy guarantees",
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-3">
+                  <X className="mt-0.5 h-4 w-4 shrink-0 text-red-400/60" />
+                  <span className="text-[14px] text-slate-400">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Midnight */}
+          <div className="rounded-2xl border border-emerald-500/10 bg-emerald-500/[0.03] p-8">
+            <div className="mb-6 flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10">
+                <Check className="h-5 w-5 text-emerald-400" />
+              </div>
+              <h3 className="text-[16px] font-medium text-white">Midnight Verification</h3>
+            </div>
+            <ul className="flex flex-col gap-4">
+              {[
+                "Credit score processed locally in your browser",
+                "Cryptographic commitment derived from your data",
+                "Only the verification result is recorded on-chain",
+                "Wallet-based identity, no account required",
+                "SHA-256 hashing protects your raw data",
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-3">
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400/60" />
+                  <span className="text-[14px] text-slate-400">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -439,14 +451,14 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <Divider />
-      <TrustSection />
-      <Divider />
-      <HowItWorksSection />
-      <Divider />
-      <PrivacyComparisonSection />
-      <Divider />
+      <SectionDivider glow />
+      <ArchitectureSection />
+      <SectionDivider glow />
+      <ProcessSection />
+      <SectionDivider glow />
       <CapabilitiesSection />
+      <SectionDivider glow />
+      <WhyMidnightSection />
     </>
   );
 }
