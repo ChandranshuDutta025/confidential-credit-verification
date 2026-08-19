@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import type { WalletStatus } from "@/lib/hooks/useWalletDetection";
 import type { WalletInfo } from "@/lib/types";
@@ -53,19 +54,24 @@ export function Navbar({
           <span className="text-sm font-semibold text-white hidden sm:inline">MidScore</span>
         </Link>
 
-        {/* Nav Links */}
-        <div className="hidden md:flex items-center gap-1">
+        {/* Nav Links with animated pill */}
+        <div className="hidden md:flex items-center gap-1 relative">
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`rounded-full px-4 py-1.5 text-[13px] font-medium transition-all duration-200 ${
-                pathname === item.href
-                  ? "bg-white/10 text-white"
-                  : "text-slate-400 hover:text-white hover:bg-white/5"
-              }`}
+              className="relative rounded-full px-4 py-1.5 text-[13px] font-medium transition-colors duration-200"
             >
-              {item.label}
+              {pathname === item.href && (
+                <motion.span
+                  layoutId="nav-pill"
+                  className="absolute inset-0 rounded-full bg-white/10"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
+              <span className={`relative z-10 ${pathname === item.href ? "text-white" : "text-slate-400 hover:text-white"}`}>
+                {item.label}
+              </span>
             </Link>
           ))}
         </div>
@@ -83,8 +89,12 @@ export function Navbar({
             </svg>
           </button>
 
-          {/* Network badge */}
-          <span className="hidden sm:inline-flex rounded-full border border-blue-500/20 bg-blue-500/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-blue-400">
+          {/* Network badge with pulsing dot */}
+          <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-blue-500/20 bg-blue-500/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-blue-400">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-blue-400" />
+            </span>
             {networkLabel}
           </span>
 

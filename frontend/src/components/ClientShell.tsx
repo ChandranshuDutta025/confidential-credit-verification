@@ -1,5 +1,7 @@
 "use client";
 
+import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import { WalletProvider, useWalletContext } from "@/lib/hooks/WalletProvider";
 import { Navbar } from "@/components/Navbar";
 
@@ -17,6 +19,23 @@ function NavbarWrapper() {
   );
 }
 
+function PageTransition({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={pathname}
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -8 }}
+        transition={{ duration: 0.2, ease: "easeInOut" }}
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
 export default function ClientShell({
   children,
 }: {
@@ -26,7 +45,9 @@ export default function ClientShell({
     <WalletProvider>
       <div className="min-h-screen w-full bg-[#050816] text-slate-100 font-sans overflow-x-hidden">
         <NavbarWrapper />
-        <main className="pt-20">{children}</main>
+        <main className="pt-20">
+          <PageTransition>{children}</PageTransition>
+        </main>
 
         <footer className="w-full border-t border-white/5">
           <div className="mx-auto max-w-5xl px-6 py-12">

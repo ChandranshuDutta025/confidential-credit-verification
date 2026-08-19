@@ -168,6 +168,49 @@ body {
 }
 
 /* ═══════════════════════════════════════════
+   GRADIENT MESH ANIMATION
+   ═══════════════════════════════════════════ */
+
+@keyframes meshDrift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -20px) scale(1.05); }
+  50% { transform: translate(-20px, 15px) scale(0.95); }
+  75% { transform: translate(15px, 25px) scale(1.02); }
+}
+
+.mesh-drift {
+  animation: meshDrift 25s ease-in-out infinite;
+}
+
+.mesh-drift-slow {
+  animation: meshDrift 35s ease-in-out infinite reverse;
+}
+
+/* ═══════════════════════════════════════════
+   BUTTON SHEEN EFFECT
+   ═══════════════════════════════════════════ */
+
+.btn-sheen {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-sheen::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn-sheen:hover::after {
+  left: 100%;
+}
+
+/* ═══════════════════════════════════════════
    ANIMATIONS
    ═══════════════════════════════════════════ */
 
@@ -198,7 +241,14 @@ body {
 
 @keyframes progress {
   0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  100% { transform: translateX(200%); }
+}
+
+@keyframes connectorDot {
+  0% { left: -4px; opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { left: calc(100% + 4px); opacity: 0; }
 }
 
 @keyframes slideIn {

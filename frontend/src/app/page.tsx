@@ -1,6 +1,14 @@
 "use client";
 
+import { useRef } from "react";
 import Link from "next/link";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  type Variants,
+} from "framer-motion";
+import { useReducedMotion } from "@/lib/hooks/useReducedMotion";
 import {
   ShieldCheck,
   Lock,
@@ -14,6 +22,25 @@ import {
   X,
   Check,
 } from "lucide-react";
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ANIMATION VARIANTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0 },
+};
+
+const staggerContainer: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12 } },
+};
+
+const heroLineVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
 
 /* ═══════════════════════════════════════════════════════════════════════════
    SECTION HEADER — Reusable for all major sections
@@ -32,23 +59,36 @@ function SectionHeader({
 }) {
   const isCenter = align === "center";
   return (
-    <div
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-80px" }}
+      variants={staggerContainer}
       className={`mx-auto mb-16 max-w-3xl ${
         isCenter ? "text-center" : "text-left"
       }`}
     >
-      <p className="mb-5 text-[13px] font-semibold uppercase tracking-[0.2em] text-blue-400">
+      <motion.p
+        variants={fadeUp}
+        className="mb-5 text-[13px] font-semibold uppercase tracking-[0.2em] text-blue-400"
+      >
         {label}
-      </p>
-      <h2 className="mb-5 text-[2.5rem] font-semibold leading-[1.15] tracking-tight text-white sm:text-[3rem]">
+      </motion.p>
+      <motion.h2
+        variants={fadeUp}
+        className="mb-5 text-[2.5rem] font-semibold leading-[1.15] tracking-tight text-white sm:text-[3rem]"
+      >
         {heading}
-      </h2>
+      </motion.h2>
       {description && (
-        <p className="text-lg leading-relaxed text-slate-400 max-w-[680px] mx-auto">
+        <motion.p
+          variants={fadeUp}
+          className="text-lg leading-relaxed text-slate-400 max-w-[680px] mx-auto"
+        >
           {description}
-        </p>
+        </motion.p>
       )}
-    </div>
+    </motion.div>
   );
 }
 
@@ -72,20 +112,25 @@ function SectionDivider({ glow = false }: { glow?: boolean }) {
    ═══════════════════════════════════════════════════════════════════════════ */
 
 function HeroSection() {
+  const reduceMotion = useReducedMotion();
+  const stagger = reduceMotion ? 0 : 0.08;
+  const delay1 = reduceMotion ? 0 : 0.2;
+  const delay2 = reduceMotion ? 0 : 0.28;
+
   return (
     <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
       {/* Background effects */}
       <div className="absolute inset-0 bg-dot-grid opacity-40" />
-      <div className="aurora-glow aurora-blue absolute top-[-200px] left-1/4" />
-      <div className="aurora-glow aurora-indigo absolute top-[-100px] right-1/4" />
-      <div className="aurora-glow aurora-violet absolute bottom-[-300px] left-1/2 -translate-x-1/2" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full bg-blue-500/[0.07] blur-[120px] pointer-events-none" />
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[300px] rounded-full bg-indigo-500/[0.05] blur-[100px] pointer-events-none" />
+      <div className="aurora-glow aurora-blue mesh-drift absolute top-[-200px] left-1/4" />
+      <div className="aurora-glow aurora-indigo mesh-drift-slow absolute top-[-100px] right-1/4" />
+      <div className="aurora-glow aurora-violet mesh-drift absolute bottom-[-300px] left-1/2 -translate-x-1/2" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full bg-blue-500/[0.07] blur-[120px] pointer-events-none mesh-drift-slow" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[400px] h-[300px] rounded-full bg-indigo-500/[0.05] blur-[100px] pointer-events-none mesh-drift" />
 
       <div className="relative z-10 page-shell w-full">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-12 items-center">
           {/* Left: Copy */}
-          <div className="animate-fade-in">
+          <div>
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/5 px-4 py-1.5">
               <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse" />
               <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-400">
@@ -93,39 +138,73 @@ function HeroSection() {
               </span>
             </div>
 
-            <h1 className="mb-6 text-5xl font-semibold leading-[1.08] tracking-tight text-white sm:text-6xl lg:text-[4rem]">
-              Prove creditworthiness.
-              <br />
-              <span className="gradient-text-blue">Without exposing your score.</span>
-            </h1>
+            <motion.h1
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: {},
+                visible: { transition: { staggerChildren: stagger } },
+              }}
+              className="mb-6 text-5xl font-semibold leading-[1.08] tracking-tight text-white sm:text-6xl lg:text-[4rem]"
+            >
+              <motion.span
+                variants={heroLineVariants}
+                transition={{ duration: 0.5, delay: delay1 }}
+                className="block"
+              >
+                Prove creditworthiness.
+              </motion.span>
+              <motion.span
+                variants={heroLineVariants}
+                transition={{ duration: 0.5, delay: delay2 }}
+                className="block"
+              >
+                <span className="gradient-text-blue">Without exposing your score.</span>
+              </motion.span>
+            </motion.h1>
 
-            <p className="mb-10 max-w-[520px] text-[16px] leading-relaxed text-slate-400">
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: reduceMotion ? 0 : 0.4 }}
+              className="mb-10 max-w-[520px] text-[16px] leading-relaxed text-slate-400"
+            >
               Prove you&apos;re eligible for credit without exposing your financial data.
               Your credit score is evaluated locally, while only the cryptographic
               verification result is shared on-chain.
-            </p>
+            </motion.p>
 
-            <div className="flex flex-col gap-3 sm:flex-row">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: reduceMotion ? 0 : 0.5 }}
+              className="flex flex-col gap-3 sm:flex-row"
+            >
               <Link
                 href="/eligibility"
-                className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-[13px] font-medium text-slate-900 transition-all duration-200 hover:bg-slate-100 hover:shadow-lg hover:shadow-white/5 hover:-translate-y-0.5 active:scale-[0.98]"
+                className="btn-sheen group inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-[13px] font-medium text-slate-900 transition-all duration-200 hover:bg-slate-100 hover:shadow-lg hover:shadow-white/5 hover:-translate-y-0.5 active:scale-[0.98]"
               >
                 Check Eligibility
                 <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
               </Link>
               <a
-                href="#how-it-works"
+                href="#architecture"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-[13px] font-medium text-slate-300 transition-all duration-200 hover:bg-white/10 hover:text-white hover:-translate-y-0.5"
               >
                 Learn More
               </a>
-            </div>
+            </motion.div>
           </div>
 
           {/* Right: Verification Flow Visualization */}
-          <div className="hidden lg:block animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: reduceMotion ? 0 : 0.3 }}
+            className="hidden lg:block"
+          >
             <VerificationFlow />
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -193,62 +272,127 @@ function ArchitectureSection() {
       title: "Private Input",
       desc: "Credit score is processed locally in your browser. Raw financial data never leaves your device.",
       icon: CreditCard,
+      glowColor: "from-blue-500/[0.06]",
+      glowPosition: "top-0 left-0",
     },
     {
       num: "02",
       title: "Cryptographic Commitment",
       desc: "A SHA-256 commitment is derived from your data, linking your wallet to the verification.",
       icon: Lock,
+      glowColor: "from-violet-500/[0.06]",
+      glowPosition: "top-0 right-0",
     },
     {
       num: "03",
       title: "On-Chain Verification",
       desc: "Only the verification result is recorded on the Midnight ledger. Your data stays private.",
       icon: CheckCircle2,
+      glowColor: "from-emerald-500/[0.06]",
+      glowPosition: "bottom-0 right-0",
     },
   ];
 
   return (
-    <section className="relative pt-16 pb-24 overflow-hidden">
+    <section id="architecture" className="relative overflow-hidden" style={{ paddingTop: "120px", paddingBottom: "140px" }}>
+      {/* Background glow */}
       <div className="absolute inset-0 bg-dot-grid opacity-20" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full bg-blue-500/[0.03] blur-[160px] pointer-events-none" />
       <div className="aurora-glow aurora-indigo absolute top-0 right-[-200px] opacity-10" />
 
-      <div className="relative z-10 page-shell">
-        <SectionHeader
-          label="Architecture"
-          heading="Your data stays yours."
-          description="Every step of the verification process is designed to protect your privacy."
-        />
+      <div className="relative z-10 page-shell" style={{ maxWidth: "1200px" }}>
+        {/* Section header — inline for precise spacing control */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={staggerContainer}
+          className="text-center mb-14"
+        >
+          <motion.p
+            variants={fadeUp}
+            className="text-[13px] font-semibold uppercase tracking-[0.2em] text-blue-400 mb-[18px]"
+          >
+            Architecture
+          </motion.p>
+          <motion.h2
+            variants={fadeUp}
+            className="font-semibold leading-[1.1] tracking-tight text-white mb-[18px]"
+            style={{ fontSize: "clamp(2.1rem, 4vw, 3rem)" }}
+          >
+            Your data stays yours.
+          </motion.h2>
+          <motion.p
+            variants={fadeUp}
+            className="text-[17px] leading-[1.6] text-slate-400 max-w-[700px] mx-auto"
+          >
+            Every step of the verification process is designed to protect your privacy.
+          </motion.p>
+        </motion.div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {cards.map((card) => (
-            <div
-              key={card.num}
-              className="group relative overflow-hidden glass-subtle glow-border rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:bg-white/[0.04]"
-            >
-              {/* Watermark number */}
-              <span className="absolute top-4 right-4 text-6xl font-black text-blue-500/[0.07] select-none pointer-events-none">
-                {card.num}
-              </span>
+        {/* Card grid with connectors */}
+        <div className="relative">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={staggerContainer}
+            className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-6"
+          >
+            {cards.map((card, i) => (
+              <motion.div
+                key={card.num}
+                variants={fadeUp}
+                className="relative group"
+              >
+                {/* Connector line (desktop only, between cards) */}
+                {i < cards.length - 1 && (
+                  <div className="hidden md:flex absolute -right-3 top-1/2 -translate-y-1/2 z-20 w-6 items-center justify-center pointer-events-none">
+                    <div className="w-full h-px bg-gradient-to-r from-blue-500/30 to-blue-500/10 relative overflow-visible">
+                      <div
+                        className="absolute top-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-blue-400/80 shadow-[0_0_6px_rgba(59,130,246,0.6)]"
+                        style={{ animation: `connectorDot 3s ease-in-out ${i * 1}s infinite` }}
+                      />
+                    </div>
+                  </div>
+                )}
 
-              {/* Header: badge + icon */}
-              <div className="relative mb-5 flex items-center justify-between">
-                <span className="inline-flex items-center rounded-lg bg-blue-500/10 px-2.5 py-1 text-xs font-mono font-bold text-blue-400 border border-blue-500/30 shadow-[0_0_12px_rgba(59,130,246,0.2)]">
-                  {card.num}
-                </span>
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-500/10 transition-colors group-hover:bg-blue-500/15">
-                  <card.icon className="h-4.5 w-4.5 text-blue-400" />
+                {/* Card */}
+                <div
+                  className="relative overflow-hidden rounded-[18px] border border-white/[0.06] transition-all duration-[250ms] ease-out hover:-translate-y-[3px] hover:border-white/[0.12] hover:bg-white/[0.04]"
+                  style={{
+                    background: "rgba(11, 16, 32, 0.5)",
+                    backdropFilter: "blur(12px)",
+                    padding: "28px",
+                    minHeight: "250px",
+                  }}
+                >
+                  {/* Subtle inner glow */}
+                  <div className={`absolute ${card.glowPosition} w-[200px] h-[200px] rounded-full bg-gradient-to-br ${card.glowColor} to-transparent blur-[60px] pointer-events-none`} />
+
+                  {/* Header: step badge + icon */}
+                  <div className="relative flex items-center justify-between mb-7">
+                    <span className="inline-flex items-center rounded-lg bg-blue-500/10 px-2.5 py-1 text-[12px] font-mono font-bold text-blue-400 border border-blue-500/30 shadow-[0_0_12px_rgba(59,130,246,0.2)]">
+                      {card.num}
+                    </span>
+                    <div className="flex h-[44px] w-[44px] items-center justify-center rounded-[12px] border border-white/[0.06] bg-white/[0.03] transition-all duration-[250ms] group-hover:border-blue-500/20 group-hover:bg-blue-500/[0.06] group-hover:shadow-[0_0_20px_rgba(59,130,246,0.1)]">
+                      <card.icon className="w-5 h-5 text-blue-400 transition-colors group-hover:text-blue-300" />
+                    </div>
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="relative text-[20px] font-semibold text-white mb-3 leading-tight">
+                    {card.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="relative text-[15px] leading-[1.6] text-slate-400" style={{ maxWidth: "330px" }}>
+                    {card.desc}
+                  </p>
                 </div>
-              </div>
-
-              <h3 className="relative mb-2.5 text-[16px] font-medium text-white">
-                {card.title}
-              </h3>
-              <p className="relative text-[14px] leading-relaxed text-slate-400">
-                {card.desc}
-              </p>
-            </div>
-          ))}
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </div>
     </section>
@@ -287,6 +431,13 @@ function ProcessSection() {
     },
   ];
 
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start 70%", "end 50%"],
+  });
+  const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
   return (
     <section className="relative pt-16 pb-24">
       <div className="absolute inset-0 bg-dot-grid opacity-20" />
@@ -299,13 +450,29 @@ function ProcessSection() {
         />
 
         <div className="mx-auto max-w-3xl">
-          <div className="relative">
-            {/* Connecting line */}
-            <div className="absolute left-[23px] top-0 bottom-0 w-px bg-gradient-to-b from-blue-500/30 via-indigo-500/20 to-transparent" />
+          <div ref={timelineRef} className="relative">
+            {/* Connecting line — background */}
+            <div className="absolute left-[23px] top-0 bottom-0 w-px bg-gradient-to-b from-blue-500/10 via-indigo-500/5 to-transparent" />
 
-            <div className="flex flex-col gap-12">
+            {/* Connecting line — scroll-driven fill */}
+            <motion.div
+              className="absolute left-[23px] top-0 w-px origin-top bg-gradient-to-b from-blue-500/50 via-indigo-500/30 to-blue-400/10"
+              style={{ height: "100%", scaleY: lineHeight }}
+            />
+
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={staggerContainer}
+              className="flex flex-col gap-12"
+            >
               {steps.map((step) => (
-                <div key={step.num} className="relative flex gap-6">
+                <motion.div
+                  key={step.num}
+                  variants={fadeUp}
+                  className="relative flex gap-6"
+                >
                   {/* Node */}
                   <div className="relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-blue-500/20 bg-[#0B1020]">
                     <step.icon className="h-5 w-5 text-blue-400" />
@@ -323,9 +490,9 @@ function ProcessSection() {
                       {step.desc}
                     </p>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
@@ -339,12 +506,12 @@ function ProcessSection() {
 
 function CapabilitiesSection() {
   const items = [
-    { icon: ShieldCheck, title: "Local Processing", desc: "Your credit score is processed in your browser with cryptographic commitments." },
-    { icon: Zap, title: "Fast Verification", desc: "Cryptographic commitments are derived locally using SHA-256. No API delays." },
-    { icon: Lock, title: "Minimal Trust", desc: "Verification happens between your wallet and the blockchain. No intermediary." },
-    { icon: EyeOff, title: "Score Stays Private", desc: "Your raw credit score is never transmitted. Only the commitment leaves your device." },
-    { icon: FileCheck, title: "Immutable Record", desc: "Verification results are recorded on-chain as tamper-proof commitments." },
-    { icon: Fingerprint, title: "Wallet Identity", desc: "Your Midnight wallet links your on-chain identity. No passwords needed." },
+    { icon: ShieldCheck, title: "Local Processing", desc: "Your credit score is processed in your browser with cryptographic commitments.", why: "Zero server round-trips mean instant feedback." },
+    { icon: Zap, title: "Fast Verification", desc: "Cryptographic commitments are derived locally using SHA-256. No API delays.", why: "Sub-second verification without network latency." },
+    { icon: Lock, title: "Minimal Trust", desc: "Verification happens between your wallet and the blockchain. No intermediary.", why: "Eliminates single points of failure and abuse." },
+    { icon: EyeOff, title: "Score Stays Private", desc: "Your raw credit score is never transmitted. Only the commitment leaves your device.", why: "Even the verifier never sees your actual score." },
+    { icon: FileCheck, title: "Immutable Record", desc: "Verification results are recorded on-chain as tamper-proof commitments.", why: "Cryptographic proof that can't be forged or altered." },
+    { icon: Fingerprint, title: "Wallet Identity", desc: "Your Midnight wallet links your on-chain identity. No passwords needed.", why: "Self-sovereign identity without credential leakage." },
   ];
 
   return (
@@ -358,11 +525,18 @@ function CapabilitiesSection() {
           description="The infrastructure primitives that make confidential credit verification possible."
         />
 
-        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={staggerContainer}
+          className="mx-auto grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+        >
           {items.map((item) => (
-            <div
+            <motion.div
               key={item.title}
-              className="group glass-subtle glow-border rounded-2xl p-8 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/[0.04]"
+              variants={fadeUp}
+              className="group glass-subtle glow-border relative overflow-hidden rounded-2xl p-8 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/[0.04]"
             >
               <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 transition-colors group-hover:bg-blue-500/15">
                 <item.icon className="h-5 w-5 text-blue-400" />
@@ -373,9 +547,12 @@ function CapabilitiesSection() {
               <p className="text-[14px] leading-relaxed text-slate-400">
                 {item.desc}
               </p>
-            </div>
+              <p className="mt-3 text-[13px] italic leading-relaxed text-blue-400/70 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                {item.why}
+              </p>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -386,6 +563,21 @@ function CapabilitiesSection() {
    ═══════════════════════════════════════════════════════════════════════════ */
 
 function WhyMidnightSection() {
+  const leftItems = [
+    "Credit score uploaded to a third-party server",
+    "Financial data stored in external databases",
+    "Third party has full access to your information",
+    "Data breach risk from centralized storage",
+    "No cryptographic privacy guarantees",
+  ];
+  const rightItems = [
+    "Credit score processed locally in your browser",
+    "Cryptographic commitment derived from your data",
+    "Only the verification result is recorded on-chain",
+    "Wallet-based identity, no account required",
+    "SHA-256 hashing protects your raw data",
+  ];
+
   return (
     <section className="relative pt-16 pb-24">
       <div className="aurora-glow aurora-blue absolute bottom-[-200px] left-[-200px] opacity-10" />
@@ -399,52 +591,52 @@ function WhyMidnightSection() {
 
         <div className="mx-auto grid max-w-4xl grid-cols-1 gap-8 md:grid-cols-2">
           {/* Traditional */}
-          <div className="rounded-2xl border border-red-500/10 bg-red-500/[0.03] p-8">
-            <div className="mb-6 flex items-center gap-3">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={staggerContainer}
+            className="rounded-2xl border border-red-500/10 bg-red-500/[0.03] p-8"
+          >
+            <motion.div variants={fadeUp} className="mb-6 flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-500/10">
                 <X className="h-5 w-5 text-red-400" />
               </div>
               <h3 className="text-[16px] font-medium text-white">Traditional Verification</h3>
-            </div>
+            </motion.div>
             <ul className="flex flex-col gap-4">
-              {[
-                "Credit score uploaded to a third-party server",
-                "Financial data stored in external databases",
-                "Third party has full access to your information",
-                "Data breach risk from centralized storage",
-                "No cryptographic privacy guarantees",
-              ].map((item) => (
-                <li key={item} className="flex items-start gap-3">
+              {leftItems.map((item) => (
+                <motion.li key={item} variants={fadeUp} className="flex items-start gap-3">
                   <X className="mt-0.5 h-4 w-4 shrink-0 text-red-400/60" />
                   <span className="text-[14px] text-slate-400">{item}</span>
-                </li>
+                </motion.li>
               ))}
             </ul>
-          </div>
+          </motion.div>
 
           {/* Midnight */}
-          <div className="rounded-2xl border border-emerald-500/10 bg-emerald-500/[0.03] p-8">
-            <div className="mb-6 flex items-center gap-3">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            variants={staggerContainer}
+            className="rounded-2xl border border-emerald-500/10 bg-emerald-500/[0.03] p-8"
+          >
+            <motion.div variants={fadeUp} className="mb-6 flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10">
                 <Check className="h-5 w-5 text-emerald-400" />
               </div>
               <h3 className="text-[16px] font-medium text-white">Midnight Verification</h3>
-            </div>
+            </motion.div>
             <ul className="flex flex-col gap-4">
-              {[
-                "Credit score processed locally in your browser",
-                "Cryptographic commitment derived from your data",
-                "Only the verification result is recorded on-chain",
-                "Wallet-based identity, no account required",
-                "SHA-256 hashing protects your raw data",
-              ].map((item) => (
-                <li key={item} className="flex items-start gap-3">
+              {rightItems.map((item) => (
+                <motion.li key={item} variants={fadeUp} className="flex items-start gap-3">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400/60" />
                   <span className="text-[14px] text-slate-400">{item}</span>
-                </li>
+                </motion.li>
               ))}
             </ul>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
