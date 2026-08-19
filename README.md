@@ -111,11 +111,11 @@
 ### Environment Variables (Frontend)
 
 ```env
-VITE_NETWORK=preview
-VITE_CONTRACT_ADDRESS=264401128219f9e476230cb17b356ebebe22a3a160ded36da07ce38d59a3aca4
-VITE_PROOF_SERVER_URL=http://127.0.0.1:6300
-VITE_INDEXER_URL=https://indexer.preview.midnight.network/api/v4/graphql
-VITE_NODE_URL=https://rpc.preview.midnight.network
+NEXT_PUBLIC_NETWORK=preview
+NEXT_PUBLIC_CONTRACT_ADDRESS=264401128219f9e476230cb17b356ebebe22a3a160ded36da07ce38d59a3aca4
+NEXT_PUBLIC_PROOF_SERVER_URL=http://127.0.0.1:6300
+NEXT_PUBLIC_INDEXER_URL=https://indexer.preview.midnight.network/api/v4/graphql
+NEXT_PUBLIC_NODE_URL=https://rpc.preview.midnight.network
 ```
 
 

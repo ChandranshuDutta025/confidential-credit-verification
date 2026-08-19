@@ -1,10 +1,17 @@
-const PROOF_SERVER =
-  process.env.NEXT_PUBLIC_PROOF_SERVER_URL || "http://127.0.0.1:6300";
-const INDEXER_URL =
+const stripTrailingSlash = (url: string): string => url.replace(/\/+$/, "");
+
+const PROOF_SERVER = stripTrailingSlash(
+  process.env.NEXT_PUBLIC_PROOF_SERVER_URL || "http://127.0.0.1:6300",
+);
+const INDEXER_URL = stripTrailingSlash(
   process.env.NEXT_PUBLIC_INDEXER_URL ||
-  "http://127.0.0.1:8088/api/v4/graphql";
+    "http://127.0.0.1:8088/api/v4/graphql",
+);
 const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || "";
 const NETWORK = process.env.NEXT_PUBLIC_NETWORK || "preprod";
+const NODE_URL = stripTrailingSlash(
+  process.env.NEXT_PUBLIC_NODE_URL || "https://rpc.preprod.midnight.network",
+);
 
 export function getConfig() {
   return {
@@ -12,6 +19,7 @@ export function getConfig() {
     indexerUrl: INDEXER_URL,
     contractAddress: CONTRACT_ADDRESS,
     network: NETWORK,
+    nodeUrl: NODE_URL,
   };
 }
 
