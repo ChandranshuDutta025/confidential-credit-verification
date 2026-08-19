@@ -284,13 +284,11 @@ function WalletStep({
 function ProofStep({
   verifying,
   proofStageIndex,
-  result,
   reducedMotion,
   onVerify,
 }: {
   verifying: boolean;
   proofStageIndex: number;
-  result: VerificationResult | null;
   reducedMotion: boolean;
   onVerify: (score: number) => void;
 }) {
@@ -854,7 +852,6 @@ export default function EligibilityPage() {
                   <ProofStep
                     verifying={verifying}
                     proofStageIndex={proofStageIndex}
-                    result={result}
                     reducedMotion={reducedMotion}
                     onVerify={handleVerify}
                   />

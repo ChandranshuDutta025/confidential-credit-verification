@@ -103,7 +103,6 @@ function CountUp({
       setVal(target);
       return;
     }
-    let start = 0;
     const startTime = performance.now();
     function tick(now: number) {
       const elapsed = now - startTime;
