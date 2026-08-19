@@ -135,13 +135,13 @@ Open http://localhost:3000 in your browser. Connect your Lace wallet (set to Pre
 - [x] Compact smart contract implemented with public/private state split
 - [x] Deliberate disclosures (`disclose()`) used only for the necessary boolean/commitment output
 - [x] Contract compiles and deploys to Midnight Preprod
-- [ ] Unit tests covering circuit logic
+- [x] Unit tests covering circuit logic
 
 ### Level 2 Checklist
 - [x] Lace wallet connect / disconnect flow
 - [x] Contract read/write integration from frontend
 - [x] Real-time dashboard reflecting on-chain verification state
-- [ ] End-to-end tests covering the full proof-generation flow
+- [x] End-to-end tests covering the full proof-generation flow
 
 ### Level 3 Checklist
 - [x] Deployment guide covering Preprod setup and reset handling
